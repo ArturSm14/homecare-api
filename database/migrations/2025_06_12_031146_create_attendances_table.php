@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\AttendanceStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,6 +18,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('address');
+            $table->string('symptoms')->nullable();
+            $table->string('status')->default(AttendanceStatus::PENDING->value);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -26,6 +30,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attendances');
+        Schema::table('attendances', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };
