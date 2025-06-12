@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Attendance;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Attendance\StoreAttendanceRequest;
+use App\Http\Requests\Attendance\UpdateAttendanceRequest;
 use App\Http\Resources\Attendance\AttendanceResource;
 use App\Http\Responses\ApiResponse;
 use App\Services\Attendance\AttendanceService;
@@ -29,10 +30,41 @@ class AttendanceController extends Controller
     public function store(StoreAttendanceRequest $request)
     {
         try {
-            $attendance = $this->attendanceService->createAttendance($request->validated());
+            $attendance = $this->attendanceService->register($request->validated());
             return ApiResponse::created(new AttendanceResource($attendance));
         } catch (\Exception $e) {
             return ApiResponse::error($e);
         }
     }
+
+    public function show($id)
+    {
+        try {
+            $attendance = $this->attendanceService->findOrFail($id);
+            return ApiResponse::success(new AttendanceResource($attendance));
+        } catch (\Exception $e) {
+            return ApiResponse::error($e);
+        }
+    }
+
+    public function update(UpdateAttendanceRequest $request, $id)
+    {
+        try {
+            $attendance = $this->attendanceService->update($id, $request->validated());
+            return ApiResponse::success(new AttendanceResource($attendance));            
+        } catch (\Exception $e) {
+            return ApiResponse::error($e);
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $this->attendanceService->delete($id);
+            return ApiResponse::success();
+        } catch (\Exception $e) {
+            return ApiResponse::error($e);
+        }
+    }
+    
 }
