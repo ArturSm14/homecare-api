@@ -20,8 +20,11 @@ class AttendanceResource extends JsonResource
             'phone' => $this->phone,
             'address' => $this->address,
             'number_protocol' => $this->number_protocol,
+            'symptoms' => $this->symptoms,
+            'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'deleted_at' => $this->deleted_at,
         ];
     }
 }

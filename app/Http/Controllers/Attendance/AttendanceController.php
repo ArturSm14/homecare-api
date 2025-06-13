@@ -7,6 +7,7 @@ use App\Http\Requests\Attendance\StoreAttendanceRequest;
 use App\Http\Requests\Attendance\UpdateAttendanceRequest;
 use App\Http\Resources\Attendance\AttendanceResource;
 use App\Http\Responses\ApiResponse;
+use App\Jobs\SendWhatsappProtocolJob;
 use App\Services\Attendance\AttendanceService;
 use Illuminate\Http\Request;
 
@@ -31,6 +32,15 @@ class AttendanceController extends Controller
     {
         try {
             $attendance = $this->attendanceService->register($request->validated());
+
+            if (!empty($attendance->phone)) {
+                SendWhatsappProtocolJob::dispatch(
+                    $attendance->phone,
+                    $attendance->number_protocol,
+                    $attendance->created_at->format('d/m/Y H:i:s')
+                );
+            }
+            
             return ApiResponse::created(new AttendanceResource($attendance));
         } catch (\Exception $e) {
             return ApiResponse::error($e);
