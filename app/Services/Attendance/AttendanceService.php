@@ -54,4 +54,13 @@ class AttendanceService
     {
         return $this->attendanceRepository->paginate($perPage);
     }
+    
+    public function countByStatus(): array
+    {
+        try {
+            return $this->attendanceRepository->countByStatus();
+        } catch (\Exception $e) {
+            throw new \Exception('Erro ao obter contagem de atendimentos por status: ' . $e->getMessage());
+        }
+    }
 }
