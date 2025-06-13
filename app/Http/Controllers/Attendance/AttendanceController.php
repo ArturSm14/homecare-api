@@ -77,4 +77,13 @@ class AttendanceController extends Controller
         }
     }
     
+    public function countByStatus()
+    {
+        try {
+            $counts = $this->attendanceService->countByStatus();
+            return ApiResponse::success($counts);
+        } catch (\Exception $e) {
+            return ApiResponse::error($e);
+        }
+    }
 }

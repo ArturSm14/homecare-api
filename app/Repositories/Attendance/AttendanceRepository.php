@@ -2,8 +2,10 @@
 
 namespace App\Repositories\Attendance;
 
+use App\Enums\AttendanceStatus;
 use App\Models\Attendance\Attendance;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class AttendanceRepository
 {
@@ -46,5 +48,25 @@ class AttendanceRepository
     public function paginate(int $perPage = 15)
     {
         return $this->model->paginate($perPage);
+    }
+    
+    public function countByStatus(): array
+    {
+        $counts = [];
+        
+        foreach (AttendanceStatus::cases() as $status) {
+            $counts[$status->value] = 0;
+        }
+        
+        $results = $this->model
+            ->select('status', DB::raw('count(*) as total'))
+            ->groupBy('status')
+            ->get();
+            
+        foreach ($results as $result) {
+            $counts[$result->status->value] = $result->total;
+        }
+        
+        return $counts;
     }
 }
