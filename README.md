@@ -48,3 +48,19 @@ php artisan migrate
 
 Acessar o projeto
 [http://localhost:8989](http://localhost:8989)
+
+
+### Acessando o RabbitMQ e Executando Filas
+
+Acessar o painel de administração do RabbitMQ
+```
+http://localhost:15672
+```
+Credenciais padrão:
+- Usuário: guest
+- Senha: guest
+
+Executar o worker para processar as filas
+```sh
+docker-compose exec app php artisan queue:work rabbitmq
+```
