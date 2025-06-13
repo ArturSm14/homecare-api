@@ -35,7 +35,24 @@ services:
             RABBITMQ_DEFAULT_PASS: guest
         networks:
             - laravel
+    postgres:
+        image: postgres:15
+        container_name: postgres
+        restart: unless-stopped
+        ports:
+            - "5433:5432"
+        environment:
+            POSTGRES_DB: homecare
+            POSTGRES_USER: homedev
+            POSTGRES_PASSWORD: secret123
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        networks:
+            - laravel
 
 networks:
     laravel:
         driver: bridge
+
+volumes:
+    pgdata:
