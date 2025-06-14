@@ -46,7 +46,7 @@ Rodar as migrations
 php artisan migrate
 ```
 
-Acessar o projeto
+Url da api:
 [http://localhost:8989](http://localhost:8989)
 
 
