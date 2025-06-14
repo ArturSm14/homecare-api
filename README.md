@@ -23,10 +23,21 @@ Suba os containers do projeto
 docker-compose up -d
 ```
 
+ou 
+
+```sh
+docker compose up -d
+```
+
 
 Acessar o container
 ```sh
 docker-compose exec app bash
+```
+ou
+
+```sh
+docker compose exec app bash
 ```
 
 
