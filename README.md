@@ -8,7 +8,7 @@ git clone https://github.com/ArturSm14/homecare-api.git
 ```
 
 ```sh
-cd app-laravel/
+cd homecare-api/
 ```
 
 
